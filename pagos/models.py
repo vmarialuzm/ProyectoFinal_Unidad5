@@ -1,10 +1,22 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from users.models import User
 # Create your models here.
 
 class Servicios(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+
+    class Nombres(models.TextChoices):
+        NETFLIX = 'NF', _('Netflix')
+        AMAZON = 'AP', _('Amazon Video')
+        START = 'ST', _('Start+')
+        PARAMOUNT = 'PM', _('Paramount+')
+
+    name = models.CharField(
+        max_length=2,
+        choices=Nombres.choices,
+        default=Nombres.NETFLIX,
+    )
     description = models.TextField()
     logo = models.URLField(max_length=200)
 
