@@ -10,6 +10,7 @@ class ServiciosViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Servicios.objects.all()
     serializer_class = ServiciosSerializer
     #permission_classes = [IsAuthenticated]
+    throttle_scope = 'servicios'
 
 class PaymentUserViewSet(viewsets.ModelViewSet):
     queryset = Payment_user.objects.all()
@@ -17,10 +18,12 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
     filter_backends=[DjangoFilterBackend]
     filterset_fields=['paymentDate','expirationDate']
+    throttle_scope = 'payment'
 
 class ExpiredPaymentsCreateApiView(generics.ListCreateAPIView):
     queryset = Expired_payments.objects.all()
     serializer_class = ExpiredPaymentsSerializer
+    throttle_scope = 'payment'
 
     def get(self,request):
         todos=Expired_payments.objects.all()

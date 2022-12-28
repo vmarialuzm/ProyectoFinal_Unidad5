@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_seed',
     'django_filters',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -149,7 +150,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.ScopedRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'pagos': '1000/day',
+        'servicios': '3/day',
+        'payment': '7/day',
 
     }
 }
