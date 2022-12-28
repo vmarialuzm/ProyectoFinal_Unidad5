@@ -8,11 +8,14 @@ from rest_framework import viewsets, filters
 class ServiciosViewSet(viewsets.ModelViewSet):
     queryset = Servicios.objects.all()
     serializer_class = ServiciosSerializer
+    permission_classes = [IsAuthenticated]
 
 class PaymentUserViewSet(viewsets.ModelViewSet):
     queryset = Payment_user.objects.all()
     serializer_class = PaymentUserSerializer
+    permission_classes = [IsAuthenticated]
 
 class ExpiredPaymentsViewSet(viewsets.ModelViewSet):
     queryset = Expired_payments.objects.all()
     serializer_class = ExpiredPaymentsSerializer 
+    permission_classes = [IsAuthenticated]
