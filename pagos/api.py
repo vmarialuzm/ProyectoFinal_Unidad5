@@ -1,21 +1,47 @@
 from .models import Servicios,Payment_user,Expired_payments
 from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import status
 from .serializers import ServiciosSerializer,PaymentUserSerializer,ExpiredPaymentsSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 from .pagination import StandardResultsSetPagination
 from rest_framework import viewsets, filters 
 
-class ServiciosViewSet(viewsets.ModelViewSet):
+class ServiciosViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Servicios.objects.all()
     serializer_class = ServiciosSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 class PaymentUserViewSet(viewsets.ModelViewSet):
     queryset = Payment_user.objects.all()
     serializer_class = PaymentUserSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
-class ExpiredPaymentsViewSet(viewsets.ModelViewSet):
+class ExpiredPaymentsCreateApiView(generics.ListCreateAPIView):
     queryset = Expired_payments.objects.all()
-    serializer_class = ExpiredPaymentsSerializer 
-    permission_classes = [IsAuthenticated]
+    serializer_class = ExpiredPaymentsSerializer
+    
+    def get(self,request):
+        todos=Expired_payments.objects.all()
+        serializer=ExpiredPaymentsSerializer (todos,many=True)
+        return Response({
+            "ok":True,
+            "message":serializer.data
+        })
+    
+    def post(self,request):
+        serializer=ExpiredPaymentsSerializer (data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response({
+                "ok":True,
+                "message":"ExpiredPayments_created"
+            },status=status.HTTP_201_CREATED)
+
+        return Response({
+            "ok":False,
+            "message":serializer.errors
+        },status=status.HTTP_500_INTERNAL_SERVER_ERROR)
