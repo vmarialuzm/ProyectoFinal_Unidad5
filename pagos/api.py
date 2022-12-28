@@ -1,9 +1,10 @@
 from .models import Servicios,Payment_user,Expired_payments
-from rest_framework import viewsets,generics,filters
+from rest_framework import viewsets,generics
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ServiciosSerializer,PaymentUserSerializer,ExpiredPaymentsSerializer
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
 
 class ServiciosViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Servicios.objects.all()
@@ -14,6 +15,8 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
     queryset = Payment_user.objects.all()
     serializer_class = PaymentUserSerializer
     #permission_classes = [IsAuthenticated]
+    filter_backends=[DjangoFilterBackend]
+    filterset_fields=['paymentDate','expirationDate']
 
 class ExpiredPaymentsCreateApiView(generics.ListCreateAPIView):
     queryset = Expired_payments.objects.all()
