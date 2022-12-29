@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'pagos',
     'users',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -152,8 +153,8 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'servicios': '3/day',
         'payment': '7/day',
-
-    }
+    },
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 CACHES = {
@@ -167,4 +168,12 @@ AUTH_USER_MODEL = 'users.User'
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Mi proyecto Final Unidad 5 y 7',
+    'DESCRIPTION': 'API de pagos de servicios',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }

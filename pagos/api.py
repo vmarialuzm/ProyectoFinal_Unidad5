@@ -9,13 +9,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 class ServiciosViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Servicios.objects.all()
     serializer_class = ServiciosSerializer
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     throttle_scope = 'servicios'
 
 class PaymentUserViewSet(viewsets.ModelViewSet):
     queryset = Payment_user.objects.all()
     serializer_class = PaymentUserSerializer
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     filter_backends=[DjangoFilterBackend]
     filterset_fields=['paymentDate','expirationDate']
     throttle_scope = 'payment'
@@ -23,6 +23,7 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
 class ExpiredPaymentsCreateApiView(generics.ListCreateAPIView):
     queryset = Expired_payments.objects.all()
     serializer_class = ExpiredPaymentsSerializer
+    permission_classes = [IsAuthenticated]
     throttle_scope = 'payment'
 
     def get(self,request):
